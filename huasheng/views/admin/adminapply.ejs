@@ -1,0 +1,52 @@
+<script>
+	function adminzpplyInfo(id){
+		$.get('/admin/adminapplyInfo?id='+id,function(rhtml){
+			$('#mbody').html(rhtml);
+			$('#myModal').modal('show');
+			$('#aa').show();
+			$('#bb').hide();
+		});
+	}
+</script>
+<div class="row">
+      <div class="col-xs-6 col-sm-1 col-md-1">
+      </div>
+      <div class="col-xs-6 col-sm-10 col-md-10">
+	  	<tr id='addtr' style='display:none'>
+	  		  <td colspan='2' align='center'>
+			 <table class="table table-hover">
+			  <caption>认证用户申请列表</caption>
+			  <thead>
+			    <tr>
+			      <th>真实姓名</th>
+			      <th>身份证号</th>
+			      <th>申请时间</th>
+			      <th>操作</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  <% rs.forEach(function(row){ %>
+			    <tr>
+			     <td><%-row.realname%></td>
+	      			<td><%-row.idnumber%></td>
+	      			<td><%
+	      			time=row.createtime;
+	      			%>
+	      			<%-time.getFullYear()%>年
+	      			<%-time.getMonth()+1%>月
+	      			<%-time.getDate()%>日
+                  </td>
+	      			<td><a href="#" onclick='adminzpplyInfo("<%-row.id%>")'>查看详细</a></td>
+			          </tr>
+			         <% }) %>
+			      </tbody>
+			    </table>
+			  </td>
+			</tr>
+	</div>
+</div>
+	<div class="col-sm-1 col-md-1"></div>
+	      <!-- 模态框（Modal） -->
+      <% include ./adminapplyinfo %>
+      </body>
+</html>
