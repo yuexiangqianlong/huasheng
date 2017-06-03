@@ -12,6 +12,11 @@ var home =  require('./routes/home');
 var admin =  require('./routes/admin');
 var msg =  require('./routes/msg')
 var search =  require('./routes/search');
+<<<<<<< HEAD
+=======
+var pay = require('./routes/pay');
+
+>>>>>>> express 框架 ajax提交
 // const mysql = require('mysql');  
 // const mysqlStore = require('connect-mysql')(session);
 var ueditor = require("ueditor");
@@ -61,6 +66,7 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, re
 }));  
 
 ////-----------拦截器的实现-------------------------------------
+<<<<<<< HEAD
 var openPage = ['/','/users/zhuce','/users/login','/users/logout','/search/goods','/search/shop'];
 app.use(function(req, res, next) {
  var url = req.originalUrl;
@@ -76,6 +82,21 @@ app.use(function(req, res, next) {
   	}
   	
   }
+=======
+var openPage = ['/','/users/zhuce','/users/login','/users/logout','/search/goods','/search/map','/pay/putshopping'];
+app.use(function(req, res, next) {
+  var url = req.originalUrl;
+  url = (url.split('?'))[0];
+  if(openPage.indexOf(url)>-1){
+      next();
+    }else{
+      if(req.session.loginbean){
+        next();
+      }else{
+        res.redirect('/');
+      }
+    }
+>>>>>>> express 框架 ajax提交
 });
 
 app.use('/', index);
@@ -84,7 +105,11 @@ app.use('/home', home);
 app.use('/admin', admin);
 app.use('/msg', msg);
 app.use('/search', search);
+<<<<<<< HEAD
 
+=======
+app.use('/pay',pay);
+>>>>>>> express 框架 ajax提交
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

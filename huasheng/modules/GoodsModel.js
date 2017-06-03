@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 var Sequelize = require('sequelize'); 
+=======
+var Sequelize = require('sequelize');
+>>>>>>> express 框架 ajax提交
 var sequelize = require('./modelhead')();
 
 var GoodsModel = sequelize.define('goods', {
