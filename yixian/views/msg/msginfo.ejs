@@ -1,0 +1,65 @@
+  <script type="text/javascript">
+  	function SendNew(){
+  		//alert('成功');
+  		$.post('/msg/SendNew',$('#SendNewform').serialize(),function(rehtml){
+  			if(rehtml==1){
+        alert("发送成功")
+       // $("#main").load('/admin/adminapply');
+       $('#myModal').modal('hide');
+        $(".modal-backdrop").remove(); //消除遮罩层
+    }else if(rehtml==2){
+         alert('查无此人');
+    }else{
+        alert('服务端出错');
+    }
+});
+  		return false;
+  	}
+
+  	function onback(){
+  		$('#myModal').modal('hide');
+        $(".modal-backdrop").remove(); //消除遮罩层
+  	}
+
+  </script>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:800px">
+		<div class="modal-content">
+		<div class="modal-header" style=' text-align: center' id="senddiv1">发送新消息  </div>
+		<div class="modal-header" style='display: none;text-align: center' id="replyl"> 回复消息 </div>
+	       	<div id="senddiv">
+	       	 <form id='SendNewform' name='SendNewform' onsubmit="return SendNew();">
+                   <div class="modal-body" style='text-align: center' id="body">
+			     <div class="input-group" style="display: none;" id="sou">
+                    <input type="text" class="form-control" name="nicheng" id="nicheng" value="" placeholder="请填写收件人昵称,多人请用英文分号(;)分割" \>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">搜</button>
+                    </span>
+                </div><!-- /input-group -->
+              <textarea cols='100' rows='5' name='reason' style="margin-top:30px"></textarea><br/>
+              <input type='hidden' name='rid'/>
+              <input type='submit' value='发送'/>&nbsp;
+              <input type='button' value='返回' onclick="onback()" />
+              </form>
+              </div> 
+              </div>
+              <div id="bb" style="display: none;">
+         
+         <!--  <div class="modal-body" style='text-align: center' id="body1">
+              <form id='rejectform' name='rejectform' onsubmit="return reply();">
+              <textarea cols='76' rows='9' name='reason'></textarea><br/>
+              <input type='hidden' name='rid'/>
+              <input type='submit' value='发送'/>&nbsp;
+              <input type='button' value='返回' onclick="onback()" />
+              </form>
+            </div> -->
+
+			<div class="modal-footer" style='clear:left'>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+</body>
+</html>

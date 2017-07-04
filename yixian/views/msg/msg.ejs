@@ -1,0 +1,100 @@
+   <% include ../header %>
+   <script type="text/javascript">
+   	function del(id){
+	if(confirm('确认删除此条记录吗?')){
+		location.href="/msg/del?id="+id;
+	}
+}
+
+function reply(rname){
+			 $('#myModal').modal('show');
+			  $('#replyl').show();
+			   $('#senddiv1').hide();
+			    $('#sou').hide();
+          $("#nicheng").val(rname);
+        
+			  // $('#bb').show();
+			 // replyform.rid.value=rid;
+			 // $('#replyname').html(rname);
+			 // $('#msgModal').modal();	
+}
+
+
+function sendMsg(rid,rname){
+       SendNewform.reset();//重置
+			 $('#myModal').modal('show');
+			 $('#replyl').hide();
+			  $('#senddiv1').show();
+			  $('#sou').show();
+        
+			  // $('#bb').hide();
+			 // replyform.rid.value=rid;
+			 // $('#replyname').html(rname);
+			 // $('#msgModal').modal();	
+}
+
+   </script>
+   <div >
+           <table class="table table-hover">
+           <caption>消息列表</caption>
+           <tbody>
+            <thead>
+                <tr>
+                  <th>发送者</th>
+                  <th>消息内容</th>
+                  <th>发送时间</th>
+                  <th>
+                        操作&nbsp;
+                        <button type="button" class="btn btn-info btn-xs" onclick='sendMsg()'>发消息</button>
+
+                  </th>
+                </tr>
+              </thead>
+                   <% msgrs.forEach(function(item){ %>
+             <tr>
+               <td>
+                     <%-item.sendname%>
+               </td>
+               <td>
+                     <%-item.message%>
+               </td>
+               <td>
+                     <%-item.sendtime.getFullYear()%>年<%-(item.sendtime.getMonth()+1)%>月<%-item.sendtime.getDate()%>日
+                     <%-item.sendtime.getHours()%>:<%-item.sendtime.getMinutes()%>
+               </td>
+               <td>
+                <button type="button" class="btn btn-warning  btn-sm" onclick='reply("<%-item.sendname%>")'>回复</button>&nbsp;
+                     <button type="button" class="btn btn-warning btn-sm" onclick='del("<%-item.id%>")'>删除</button>
+               </td>
+             </tr>
+             <% })%>
+             <tr> 
+             <% page=parseInt(page)%>
+               <td colspan="4" align="center">
+               <!-- 转译page他是字符串型 -->
+                <ul class=" pagination ">
+                <li><a href="">共<%-rowCount%>条消息</a></li>
+                 <li><a href=""> 第<%-page%>/<%-sumpage%>页</a></li>
+                  <%if(page>1){%>
+                 <li><a href="./msg?page=1">首页</a></li>
+                 <li><a href="./msg?page=<%-page-1%>">上一页</a></li>
+                 <%}%>
+                 <%if(page<sumpage){%>
+                
+                 <li><a href="./msg?page=<%-page+1%>">下一页</a></li>
+                  <li><a href="./msg?page=<%-sumpage%>">尾页</a></li>
+                 
+                 <%}%>
+                
+                 <% for(i=1;i<=sumpage;i++){ %>
+                <li><a href='./msg?page=<%-i%>'><%-i%></a></li>
+
+              <% } %> 
+              </ul>
+               </td>
+             </tr>
+           </tbody>
+         </table>
+      </div>
+</div>
+  <% include ./msginfo %>

@@ -1,0 +1,191 @@
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active">
+        <a href="#home" data-toggle="tab">
+            开店信息
+         </a>
+    </li>
+
+    <li><a href="#ios" data-toggle="tab">经营点信息</a></li>
+
+    <li class="dropdown">
+        <a href="#" id="myTabDrop1" class="dropdown-toggle"
+           data-toggle="dropdown">商品管理
+             <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+            <li><a href="#jmeter" tabindex="-1" data-toggle="tab">jmeter</a></li>
+            <li><a href="#ejb" tabindex="-1" data-toggle="tab">ejb</a></li>
+        </ul>
+    </li>
+
+</ul>
+
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade in active" id="home">
+      	<div id="mapContainer" style='width:100%; height:600px;margin:43px 0px'>
+      		
+      	</div>
+     	<div class="button-group" style="position:absolute;top: 60px;">
+    		<input type="button" class="button" value="店铺信息修改" onClick="modification()"/>
+    		<input type="button" class="button" value="关停店铺" onClick="closes()"/>
+    		<input type="button" class="button" value="店铺搬家" onClick="move()"/>
+		</div>
+	</div>
+
+	 <div class="tab-pane fade" id="ios">
+      	 <% include goodsmanage %>
+         
+    </div>
+
+    <div class="tab-pane fade" id="jmeter">
+        <p>jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。</p>
+    </div>
+    <div class="tab-pane fade" id="ejb">
+        <p>Enterprise Java Beans（EJB）是一个创建高度可扩展性和强大企业级应用程序的开发架构，部署在兼容应用程序服务器（比如 JBOSS、Web Logic 等）的 J2EE 上。
+        </p>
+    </div>
+</div>
+<script>
+<<<<<<< HEAD
+AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
+=======
+>>>>>>> express 框架 ajax提交
+    //初始化地图对象，加载地图
+    var map = new AMap.Map('mapContainer', {
+		view:new AMap.View2D({
+			resizeEnable: true,
+			center: new AMap.LngLat(116.397428, 39.90923),
+			zoom: 18	
+		})
+    });
+<<<<<<< HEAD
+var positionPicker = new PositionPicker({
+        mode:'dragMap',//  设定为拖拽地图模式，可选'dragMap'、'dragMarker'，默认为'dragMap'
+        map:map//依赖地图对象
+    });
+    //TODO:事件绑定、结果处理等
+});
+=======
+>>>>>>> express 框架 ajax提交
+
+	function eventHandler(event){
+		evt = event;
+	  var lnglat = event.lnglat;
+	 rejectform.lng.value=event.lnglat.getLng();
+	 rejectform.lat.value=event.lnglat.getLat();
+		 //alert(lnglat.lng);   //经度
+		// alert(lnglat.lat);	//纬度
+		$('#myModal').modal('show');
+	}
+	var listener = AMap.event.addListener(map,"click",eventHandler);
+	       <% rs1.forEach(function(row){%>  
+             if (<%-row.liveflag%>==1) {   
+			var marker = new AMap.Marker({           
+			  map:map,                 
+			  position:[<%-row.lng%>,<%-row.lat%>], 
+			  title:'<%-row.shopname%>',
+                icon:"http://webapi.amap.com/images/5.png",
+			  offset:new AMap.Pixel(-10,-20) 
+				 });
+			marker.setMap(map);
+			marker.setLabel({
+			offset: new AMap.Pixel(-10, -20),
+			content: '<%-row.detail%>'
+			});
+        }else{
+            var marker = new AMap.Marker({           
+              map:map,                 
+              position:[<%-row.lng%>,<%-row.lat%>], 
+              title:'<%-row.shopname%>',
+               icon:"http://webapi.amap.com/images/0.png",
+              offset:new AMap.Pixel(-10,-20) 
+                 });
+            marker.setMap(map);
+            marker.setLabel({
+            offset: new AMap.Pixel(-10, -20),
+            content: '<%-row.detail%>'
+            });
+        }
+ 	<% }) %>
+
+AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.OverView'],function(){
+            map.addControl(new AMap.ToolBar());
+            map.addControl(new AMap.Scale());
+            map.addControl(new AMap.OverView({isOpen:true}));
+    });
+
+function shopmanage(){
+
+   $.ajax({
+    url: '/home/shopmanage',
+    type: 'POST',
+    cache: false,
+    data: new FormData($('#shopform')[0]),
+    processData: false,
+    contentType: false
+}).done(function(res) {
+	if(res==1){
+        alert("成功")
+        $(".modal-backdrop").remove(); //消除遮罩层
+       $("#main").load('/home/shopmanagelist');
+    }else if (res==0){
+        alert('服务端出错');
+    }else{
+    	alert('未知错误');
+    }
+}).fail(function(res) {
+	alert('上传失败');
+});  
+}
+	function idphotoChange(sourceId, targetId) {  
+	if (typeof FileReader === 'undefined') {  
+	    alert('你的浏览器不支持FileReader接口！');  
+	    return;  
+	}    
+	var file = document.getElementById(sourceId).files[0]; 
+	for (var key in file) {
+		console.log(file.name);
+	}
+	if(!/image\/\w+/.test(file.type)){  
+	    alert("看清楚,这个需要图片！"); 
+	    return false;
+	    }else if (!/\S/.test(file.type)) {
+	    	alert("不允许为空")
+	    }
+	var reader = new FileReader();  
+	//将文件以Data URL形式读入页面  
+	reader.readAsDataURL(file);
+	reader.onload=function(e){  
+	    //显示文件  
+	    var img = document.getElementById(targetId);  
+	   
+	      img.src = this.result;  
+	    // result.innerHTML='<img src="' + this.result +'" alt="" />'; 
+
+	} 
+} 
+function closes(){
+         if (confirm('确认关闭店铺吗吗')){
+        $.post('/home/close',function(rehtml){
+            if(rehtml==0){
+                 alert('服务端出错');
+                // $("#main").html(rehtml);
+                // $(".modal-backdrop").remove(); //消除遮罩层
+               // location.href="/home/shopmanagelist";
+            }else{
+                $("#main").html(rehtml);
+               alert("成功");
+            }
+        });
+        }
+    }
+    function modification(){
+         $('#myModal').modal('show');
+    }
+     function move(){ 
+        alert("zz");
+     }
+</script>
+<% include shopinfo %>
+
+
